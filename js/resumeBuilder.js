@@ -1,13 +1,12 @@
-var name = "Chiel Wintermans";
-var role = "Front End Developer";
-
-var formattedName = HTMLheaderName.replace("%data%", name);
-var formattedRole = HTMLheaderRole.replace("%data%", role);
-
-$("#header").prepend(formattedName);
-$("#header").prepend(formattedRole);
-
-var skills = ["video", "audio", "mastering", "front end development"];
+var bio = {
+	"name" : "Chiel Wintermans",
+	"role" : "Front End Developer",
+	"age" : 39,
+	"contacts" : {"email" : "mikefrost@free4thefree.net", "mobile" : "06-45815791", "github" : "ChielWintermans", "location" : "Eindhoven"},
+	"skills" : ["video", "audio", "vinyl mastering", "front end development"],
+	"img" : "http://free4thefree.net/img/ChielWintermans_profile.jpg",
+	"welcomeMessage" : "Hello World"
+};
 
 var work = {
 	"jobs" : [
@@ -25,7 +24,27 @@ var work = {
 			"dates" : "june 2013 - november 2014",
 			"location" : "Eindhoven",
 			"description" : "Customer service agent for a triple-play service provider"
-
+		},
+		{
+			"title" : "stagehand/AV-technician",
+			"employer" : "self-employed",
+			"dates" : "2011 - november 2012",
+			"location" : "Eindhoven",
+			"description" : "freelance stagehand & AV technician for various employers"
+		},
+		{
+			"title" : "audiovisual artist",
+			"employer" : "self-employed",
+			"dates" : "2007 - 2011",
+			"location" : "Eindhoven",
+			"description" : "producer & performer of electronic music"
+		},
+		{
+			"title" : "video editor/audiovisual designer",
+			"employer" : "self-employed",
+			"dates" : "1998 - 2010",
+			"location" : "Eindhoven",
+			"description" : "freelance video editor & audiovisual designer"
 		}
 		]
 };
@@ -54,16 +73,6 @@ var projects = {
 
 };
 
-var bio = {
-	"name" : "Chiel Wintermans",
-	"role" : "Front End Developer",
-	"age" : 39,
-	"contacts" : {"email" : "mikefrost@free4thefree.net", "mobile" : "06-45815791", "github" : "ChielWintermans", "location" : "Eindhoven"},
-	"skills" : ["video", "audio", "mastering", "front end development"],
-	"img" : "https://drive.google.com/file/d/0B0SXl-c49R8VblVqZElNSGU5V0E/view?usp:sharing",
-	"welcomeMessage" : "Hello World"
-};
-
 var education = {
 	"schools" : [
 		{
@@ -71,7 +80,7 @@ var education = {
 			"dates" : "1993 - 1994",
 			"location" : "Eindhoven",
 			"degree" : "high-school",
-			"major" : "high-school"
+			"major" : "(not applicable)"
 		},
 		{
 			"name" : "Academie voor Beeldende Vorming",
@@ -91,18 +100,26 @@ var education = {
 	]
 };
 
-/*
-var myName = HTMLheaderName.replace("%data%", "Chiel Wintermans");
-console.log(myName);
-$("#header").append(myName);
+var formattedName = HTMLheaderName.replace("%data%", bio.name);
+var formattedRole = HTMLheaderRole.replace("%data%", bio.role);
 
-var myRole = HTMLheaderRole.replace("%data%", "Front End Developer");
-console.log(myRole);
-$("#header").append(myRole);
-*/
+$("#header").append(formattedName);
+$("#header").append(formattedRole);
 
-//$("#main").append(work["position"]);
-//$("#main").append(education.city);
+function displayBio(){
+	var formattedWelcome = HTMLwelcomeMsg.replace("%data%", bio.welcomeMessage);
+    $("#header").append(formattedWelcome);
+    var formattedbioPic = HTMLbioPic.replace("%data%", bio.img);
+    $("#header").append(formattedbioPic);
+    var formattedMobile = HTMLmobile.replace("%data%", bio.contacts.mobile);
+    $("#topContacts").append(formattedMobile);
+    var formattedEmail = HTMLemail.replace("%data%", bio.contacts.email);
+    $("#topContacts").append(formattedEmail);
+    var formattedGithub = HTMLgithub.replace("%data%", bio.contacts.github);
+    $("#topContacts").append(formattedGithub);
+    var formattedLocation = HTMLlocation.replace("%data%", bio.contacts.location);
+    $("#topContacts").append(formattedLocation);
+}
 
 if (bio.skills.length > 0){
 	$("#header").append(HTMLskillsStart);
@@ -117,15 +134,6 @@ if (bio.skills.length > 0){
 	$("#skills").append(formattedSkill);
 };
 
-/*
-for (i=0; i<work.jobs.length; i++){
-	$("#workExperience").append(HTMLworkStart);
-	var formattedFull = HTMLworkEmployer.replace("%data%", work.jobs[i].employer) + HTMLworkTitle.replace("%data%", work.jobs[i].title);
-	$(".work-entry:last").append(formattedFull);
-}
-*/
-
-
 function displayWork(){
 	for (job in work.jobs){
 		$("#workExperience").append(HTMLworkStart);
@@ -138,19 +146,6 @@ function displayWork(){
 		$(".work-entry:last").append(formatWorkLoc);
 		$(".work-entry:last").append(formatWorkDesc);
 	}
-}
-displayWork();
-$(document).click(function(loc) {console.log(loc.pageX, loc.pageY);});
-
-$("#main").append(internationalizeButton);
-
-function inName(){
-	var nameArray = name.split(" ");
-	var lastName = nameArray[1];
-	var bigLastName = lastName.toUpperCase();
-	var newName = nameArray[0].concat(" ", bigLastName);
-	console.log(newName);
-	return newName;
 }
 
 projects.display = function(){
@@ -166,191 +161,50 @@ projects.display = function(){
 		$(".project-entry:last").append(projImg);
 	}
 }
-projects.display();
+
+function displaySchools(){
+	for (var school in education.schools) {
+	   	$("#education").append(HTMLschoolStart);
+		var formattedName= HTMLschoolName.replace("%data%", education.schools[school].name);
+		var formattedCity = HTMLschoolLocation.replace("%data%", education.schools[school].location);
+		var formattedDegree = HTMLschoolDegree.replace("%data%", education.schools[school].degree);
+		var formattedEducationTitle = formattedName + formattedDegree + formattedCity;
+		$(".education-entry:last").append(formattedEducationTitle);
+		var formattedDates = HTMLschoolDates.replace("%data%", education.schools[school].dates);
+		$(".education-entry:last").append(formattedDates);
+		var formattedMajor = HTMLschoolMajor.replace("%data%", education.schools[school].major);
+		$(".education-entry:last").append(formattedMajor);
+	}
+	$("#education").append(HTMLonlineClasses);
+ 	for (var course in education.onlineCourses) {
+		$("#education").append(HTMLonlineStart);	
+		var formattedTitle = HTMLonlineTitle.replace("%data%", education.onlineCourses[course].title);
+		var formattedSchool= HTMLonlineSchool.replace("%data%", education.onlineCourses[course].school);
+		var formattedOnlinecourseTitle = formattedTitle + formattedSchool;
+		$(".education-entry:last").append(formattedOnlinecourseTitle);
+		var formattedSchoolDates = HTMLonlineDates.replace("%data%", education.onlineCourses[course].dates);
+		$(".education-entry:last").append(formattedSchoolDates);
+		var formattedURL = HTMLonlineURL.replace("%data%", education.onlineCourses[course].url);
+		$(".education-entry:last").append(formattedURL);
+	}
+}
+
+function inName(){
+	var nameArray = name.split(" ");
+	var lastName = nameArray[1];
+	var bigLastName = lastName.toUpperCase();
+	var newName = nameArray[0].concat(" ", bigLastName);
+	console.log(newName);
+	return newName;
+}
+
+$(document).click(function(loc) {console.log(loc.pageX, loc.pageY);});
+
+$("#main").append(internationalizeButton);
 
 $("#mapDiv").append(googleMap);
+displayBio();
+displayWork();
+projects.display();
+displaySchools();
 
-function getRelationship(x, y){
-	var xtype = typeof x;
-	var ytype = typeof y;
-	if (xtype != "number"){
-		if (ytype != "number"){
-			return("Can't compare relationships because " + x + " and " + y + " are not numbers");
-		}else{
-			return("Can't compare relationships because " + x + " is not a number");
-		}
-	}else if (ytype != "number"){
-		return("Can't compare relationships because " + y + " is not a number");
-	}else if (x > y){
-		return(">");
-	}else if (x < y){
-		return("<");
-	}else if (x === y){
-		return("=");
-	}
-}
-
-var moonWalkers = [
-  "Neil Armstrong",
-  "Buzz Aldrin",
-  "Pete Conrad",
-  "Alan Bean",
-  "Alan Shepard",
-  "Edgar Mitchell",
-  "David Scott",
-  "James Irwin",
-  "John Young",
-  "Charles Duke",
-  "Eugene Cernan",
-  "Harrison Schmitt"
-];
-
-function alphabetizer(names) {
-	var sortedArray = [];
-    for (name in names){
-      	var splitName = names[name].split(" ");
-    	var firstName = splitName[0];
-    	var lastName = splitName[1];
-    	var reversedName = lastName.concat(", ", firstName);
-    	sortedArray.push(reversedName);
-    }
-    sortedArray.sort();
-}
-
-alphabetizer(moonWalkers);
-
-// Iterate through the localizedRuleNames in ruleResults and 
-// return an array of their strings.
-function ruleList(results) {
-	var allArray = Object.getOwnPropertyNames(results);
-	console.log(allArray);
-	for (i=0; i<allArray.length; i++){
-		console.log(results[allArray[i]]);
-		if (typeof results[allArray[i]] === "object"){
-			console.log("ok");
-		}
-	}
-//	var test = results[allArray[0]];
-//	console.log(test);
-//	var test1 = results[allArray[1]];
-//	console.log(test1);
-}
-
-// Iterate through pageStats in the psiResults object and 
-// return the total number of bytes to load the website.
-function totalBytes(results) {
-    var rawBytes = results.pageStats;
-    var addedBytes = 0;
-    for (value in rawBytes){
-    	if (value.match("Bytes")){
-    		var newBytes = Number(rawBytes[value]);
-    		addedBytes = addedBytes + newBytes;
-    	}
-    }
-}
-
-// Below, you'll find a sample PS Insights JSON
-// and two console.log statements to help you test your code!
-
-psinsights = {
- "kind": "pagespeedonline#result",
- "id": "/speed/pagespeed",
- "responseCode": 200,
- "title": "PageSpeed Home",
- "score": 90,
- "pageStats": {
-  "numberResources": 22,
-  "numberHosts": 7,
-  "totalRequestBytes": "2761",
-  "numberStaticResources": 16,
-  "htmlResponseBytes": "91981",
-  "cssResponseBytes": "37728",
-  "imageResponseBytes": "13909",
-  "javascriptResponseBytes": "247214",
-  "otherResponseBytes": "8804",
-  "numberJsResources": 6,
-  "numberCssResources": 2
- },
- "formattedResults": {
-  "locale": "en_US",
-  "ruleResults": {
-    "AvoidBadRequests": {
-      "localizedRuleName": "Avoid bad requests",
-      "ruleImpact": 0.0
-    },
-    "MinifyJavaScript": {
-      "localizedRuleName": "Minify JavaScript",
-      "ruleImpact": 0.1417,
-      "urlBlocks": [
-      {
-        "header": {
-       "format": "Minifying the following JavaScript resources could reduce their size by $1 ($2% reduction).",
-       "args": [
-        {
-         "type": "BYTES",
-         "value": "1.3KiB"
-        },
-        {
-         "type": "INT_LITERAL",
-         "value": "0"
-        }
-       ]
-        },
-        "urls": [
-        {
-          "result": {
-         "format": "Minifying $1 could save $2 ($3% reduction).",
-         "args": [
-          {
-           "type": "URL",
-           "value": "http://code.google.com/js/codesite_tail.pack.04102009.js"
-          },
-          {
-           "type": "BYTES",
-           "value": "717B"
-          },
-          {
-           "type": "INT_LITERAL",
-           "value": "1"
-          }
-         ]
-        }
-       },
-       {
-        "result": {
-         "format": "Minifying $1 could save $2 ($3% reduction).",
-         "args": [
-          {
-           "type": "URL",
-           "value": "http://www.gmodules.com/ig/proxy?url\u003dhttp%3A%2F%2Fjqueryjs.googlecode.com%2Ffiles%2Fjquery-1.2.6.min.js"
-          },
-          {
-           "type": "BYTES",
-           "value": "258B"
-          },
-          {
-           "type": "INT_LITERAL",
-           "value": "0"
-          }
-         ]
-        }
-       }
-      ]
-     }
-    ]
-   },
-   "SpriteImages": {
-    "localizedRuleName": "Combine images into CSS sprites",
-    "ruleImpact": 0.0
-   }
-  }
- },
- "version": {
-  "major": 1,
-  "minor": 11
- }
-};
-
-// Try logging the outputs below to test your code!
-console.log(ruleList(psinsights));
-console.log(totalBytes(psinsights));
