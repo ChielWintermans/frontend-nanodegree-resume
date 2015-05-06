@@ -5,7 +5,7 @@ var bio = {
 	"contacts" : {"email" : "mikefrost@free4thefree.net", "mobile" : "06-45815791", "github" : "ChielWintermans", "location" : "Eindhoven"},
 	"skills" : ["video", "audio", "vinyl mastering", "front end development"],
 	"img" : "http://free4thefree.net/img/ChielWintermans_profile.jpg",
-	"welcomeMessage" : "Hello World"
+	"welcomeMessage" : "Gumbo beet greens corn soko endive gumbo gourd. Parsley shallot courgette tatsoi pea sprouts fava bean collard greens dandelion okra wakame tomato. Dandelion cucumber earthnut pea peanut soko zucchini."
 };
 
 var work = {
@@ -103,13 +103,11 @@ var education = {
 	]
 };
 
-var formattedName = HTMLheaderName.replace("%data%", bio.name);
-var formattedRole = HTMLheaderRole.replace("%data%", bio.role);
-
-$("#header").append(formattedName);
-$("#header").append(formattedRole);
-
 function displayBio(){
+	var formattedName = HTMLheaderName.replace("%data%", bio.name);
+	var formattedRole = HTMLheaderRole.replace("%data%", bio.role);
+	$("#header").append(formattedName);
+	$("#header").append(formattedRole);
 	for (var contact in bio.contacts){
 		var cType = bio.contacts[contact];
 		var contactType = HTMLcontactGeneric.replace("%contact%", contact);
@@ -118,11 +116,9 @@ function displayBio(){
 	}
 	var formattedWelcome = HTMLwelcomeMsg.replace("%data%", bio.welcomeMessage);
 	var formattedbioPic = HTMLbioPic.replace("%data%", bio.img);
+	$("#header").append(formattedbioPic);
 	$("#header").append(formattedWelcome);
-    $("#header").append(formattedbioPic);
-}
-function displaySkills(){
-	if (bio.skills.length > 0){
+    if (bio.skills.length > 0){
 		$("#header").append(HTMLskillsStart);
 		for (var skill in bio.skills){
 			var thisSkill = bio.skills[skill];	
@@ -199,7 +195,8 @@ function displayFooter(){
 }
 
 function inName(){
-	var nameArray = name.split(" ");
+	var oldName = bio.name;
+	var nameArray = oldName.split(" ");
 	var lastName = nameArray[1];
 	var bigLastName = lastName.toUpperCase();
 	var newName = nameArray[0].concat(" ", bigLastName);
@@ -212,7 +209,6 @@ $(document).click(function(loc) {console.log(loc.pageX, loc.pageY);});
 $("#main").append(internationalizeButton);
 
 $("#mapDiv").append(googleMap);
-displaySkills();
 displayBio();
 displayWork();
 projects.display();
